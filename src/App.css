@@ -1,8 +1,27 @@
 .App-intro {
   font-size: large;
-  margin-top: 100px;
 }
 
-p {
-  margin-left: 20px;
+.Layout-Wrapper {
+  width: 100%;
+}
+
+.Content-Wrapper {
+  max-width: 100%;
+  margin: 0 auto;
+  padding: 0 16px;
+  padding-top: 64px;
+}
+
+@media screen and (min-width: 600px) {
+  .Content-Wrapper {
+    padding: 0 24px;
+    padding-top: 74px;
+  }
+}
+
+@media screen and (min-width: 948px) {
+  .Content-Wrapper {
+    max-width: 900px;
+  }
 }
