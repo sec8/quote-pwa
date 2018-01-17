@@ -18,18 +18,17 @@ const styles = {
 
 const Quote = (props) => {
 
-  const { classes } = props;
+  const { classes, quoteText, quoteAuthor } = props;
 
   return (
     <div>
       <Card className={classes.card}>
       <CardContent>
         <Typography className={classes.quoteText} type="headline" gutterBottom>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-          sed do eiusmod tempor incididunt ui labore et dolore magna aliqua.
+          {quoteText}
         </Typography>
         <Typography  className={classes.quoteAuthor} type="subheading">
-           - Lorem Ipsum
+           - {quoteAuthor}
         </Typography>
       </CardContent>
       <CardActions>

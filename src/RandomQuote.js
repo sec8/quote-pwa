@@ -12,15 +12,42 @@ const styles = {
 };
 
 class RandomQuote extends Component {
+  state = {
+    requestFailed: false
+  }
+
+  componentDidMount() {
+    fetch('/quote')
+      .then(response => {
+        console.log(response);
+        if (!response.ok) {
+          throw Error("Network request failed")
+        }
+        return response;
+      })
+      .then(data => data.json())
+      .then(data => {
+        this.setState({
+          quoteText: data.quoteText,
+          quoteAuthor: data.quoteAuthor,
+        })
+      }, () => {
+        this.setState({
+          requestFailed: true
+        })
+      })
+  }
 
   render() {
     const { classes } = this.props;
 
+    if (this.state.requestFailed) return <p>Failed...</p>
+    if (!this.state.quoteText) return <p>Loading...</p>
     return (
       <div className={classes.root}>
         <Grid container spacing={24}>
           <Grid item xs={12}>
-            <Quote />
+            <Quote quoteText={this.state.quoteText} quoteAuthor={this.state.quoteAuthor} />
           </Grid>
         </Grid>
       </div>
