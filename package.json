@@ -2,7 +2,11 @@
   "name": "quote-pwa",
   "version": "0.1.0",
   "private": true,
-  "proxy": "http://localhost:3001",
+  "proxy": {
+    "/quote": {
+      "target": "http://localhost:3001"
+    }
+  },
   "dependencies": {
     "express": "^4.16.2",
     "material-ui": "^1.0.0-beta.29",
