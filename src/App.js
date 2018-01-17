@@ -1,14 +1,12 @@
 import React, { Component } from 'react';
 import {Switch, Route, Link} from 'react-router-dom';
-import logo from './logo.svg';
 import './App.css';
 
-const Page = ({title}) => (
-  <div className="App">
-    <header className="App-header">
-      <img src={logo} className="App-logo" alt="logo" />
-      <h1 className="App-title">{title}</h1>
-    </header>
+import Navigation from './Navigation';
+
+const Page = (props) => (
+  <div>
+    <Navigation title={props.title} />
     <p className="App-intro">
        To get started, edit <code>src/App.js</code> and save to reload.
     </p>
