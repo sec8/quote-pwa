@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import { withStyles } from 'material-ui/styles';
 import AppBar from 'material-ui/AppBar';
 import ToolBar from 'material-ui/Toolbar';
@@ -37,8 +38,8 @@ class Navigation extends Component {
     
     const sideBarMenu = (
       <div className={classes.sideBar}>
-        <MenuItem onClick={this.handleToggle}>Home</MenuItem>
-        <MenuItem onClick={this.handleToggle}>About</MenuItem>
+        <MenuItem onClick={this.handleToggle} component={Link} to="/">Home</MenuItem>
+        <MenuItem onClick={this.handleToggle} component={Link} to="/about">About</MenuItem>
       </div>
     );
 
