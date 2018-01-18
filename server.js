@@ -2,7 +2,7 @@ import express from 'express';
 import request from 'request';
 
 const app = express();
-const URL = "https://api.forismatic.com/api/1.0/?method=getQuote&lang=en&format=json&json=?";
+const URL = "https://talaikis.com/api/quotes/random/";
 
 let quote;
 

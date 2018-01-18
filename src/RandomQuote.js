@@ -32,8 +32,8 @@ class RandomQuote extends Component {
       .then(data => data.json())
       .then(data => {
         this.setState({
-          quoteText: data.quoteText,
-          quoteAuthor: data.quoteAuthor,
+          quoteText: data.quote,
+          quoteAuthor: data.author,
         })
       }, () => {
         this.setState({
