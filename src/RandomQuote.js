@@ -17,6 +17,10 @@ class RandomQuote extends Component {
   }
 
   componentDidMount() {
+    this.getQuotes();
+  }
+
+  getQuotes = () => {
     fetch('/quote')
       .then(response => {
         console.log(response);
@@ -36,7 +40,7 @@ class RandomQuote extends Component {
           requestFailed: true
         })
       })
-  }
+  };
 
   render() {
     const { classes } = this.props;
@@ -47,7 +51,7 @@ class RandomQuote extends Component {
       <div className={classes.root}>
         <Grid container spacing={24}>
           <Grid item xs={12}>
-            <Quote quoteText={this.state.quoteText} quoteAuthor={this.state.quoteAuthor} />
+            <Quote quoteText={this.state.quoteText} quoteAuthor={this.state.quoteAuthor} getQuotes={this.getQuotes.bind(this)} />
           </Grid>
         </Grid>
       </div>

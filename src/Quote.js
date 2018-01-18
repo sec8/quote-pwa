@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { withStyles } from 'material-ui/styles';
 import Card, { CardActions, CardContent} from 'material-ui/Card';
 import Button from 'material-ui/Button';
@@ -16,28 +16,34 @@ const styles = {
   }
 };
 
-const Quote = (props) => {
+class Quote extends Component {
 
-  const { classes, quoteText, quoteAuthor } = props;
+  getRandomQuote = () => {
+    this.props.getQuotes();
+  }
 
-  return (
-    <div>
-      <Card className={classes.card}>
-      <CardContent>
-        <Typography className={classes.quoteText} type="headline" gutterBottom>
-          {quoteText}
-        </Typography>
-        <Typography  className={classes.quoteAuthor} type="subheading">
-           - {quoteAuthor}
-        </Typography>
-      </CardContent>
-      <CardActions>
-        <Button raised>Next Quote</Button>
-        <Button raised>Save Quote</Button>
-      </CardActions>
-      </Card>
-    </div>
-  );
+  render() {
+    const { classes, quoteText, quoteAuthor } = this.props;
+
+    return (
+      <div>
+        <Card className={classes.card}>
+        <CardContent>
+          <Typography className={classes.quoteText} type="headline" gutterBottom>
+            {quoteText}
+          </Typography>
+          <Typography  className={classes.quoteAuthor} type="subheading">
+            - {quoteAuthor}
+          </Typography>
+        </CardContent>
+        <CardActions>
+          <Button raised onClick={this.getRandomQuote.bind(this)}>Next Quote</Button>
+          <Button raised>Save Quote</Button>
+        </CardActions>
+        </Card>
+      </div>
+    );
+  }
 }
 
 export default withStyles(styles)(Quote);
