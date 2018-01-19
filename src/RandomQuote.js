@@ -7,7 +7,7 @@ import Quote from './Quote';
 
 const styles = {
   root: {
-    marginTop: 150,
+  
   },
 };
 
@@ -17,7 +17,10 @@ class RandomQuote extends Component {
   }
 
   componentDidMount() {
-    this.getQuotes();
+    this.setState({
+      quoteText: "A wise man once said...",
+      quoteAuthor: "Nothing",
+    })
   }
 
   getQuotes = () => {

@@ -6,13 +6,16 @@ import Typography from 'material-ui/Typography';
 
 const styles = {
   card: {
-    
+    textAlign: "center",
   },
   quoteText: {
-    
+
   },
   quoteAuthor: {
-    
+
+  },
+  cardActions: {
+    justifyContent: "center",
   }
 };
 
@@ -36,7 +39,7 @@ class Quote extends Component {
             - {quoteAuthor}
           </Typography>
         </CardContent>
-        <CardActions>
+        <CardActions className={classes.cardActions}>
           <Button raised onClick={this.getRandomQuote.bind(this)}>Next Quote</Button>
           <Button raised>Save Quote</Button>
         </CardActions>
