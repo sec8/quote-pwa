@@ -12,10 +12,13 @@ app.use(express.static('./build'));
 
 const getQuote = () => {
   request.get(URL, (error, response, data) => {
-    quote = data;
+    console.log(data);
+    quote = JSON.parse(data);
   });
 };
 
+//seems like a really ugly fix to the first request failed problem
+getQuote();
 
 app.get('/quote', function (req, res) {
   getQuote();
