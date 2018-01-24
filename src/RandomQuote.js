@@ -3,6 +3,7 @@ import { withStyles } from 'material-ui/styles';
 import Grid from 'material-ui/Grid';
 
 import Quote from './Quote';
+import DB from './DB';
 
 
 const styles = {
@@ -13,7 +14,8 @@ const styles = {
 
 class RandomQuote extends Component {
   state = {
-    requestFailed: false
+    requestFailed: false,
+    quoteSaveFailed: false,
   }
 
   componentDidMount() {
@@ -45,6 +47,21 @@ class RandomQuote extends Component {
       })
   };
 
+  saveQuotes = () => {
+    const quoteText = this.state.quoteText;
+    const quoteAuthor = this.state.quoteAuthor;
+
+    DB.findQuotes()
+      .then( (res) => {
+        console.log(res);
+        if (!res) {
+          return DB.addQuote({quoteText, quoteAuthor});
+        } else if (res.some(quotes => quotes.quoteText === quoteText) !== true){
+          return DB.addQuote({quoteText, quoteAuthor});
+        }
+      })
+  }
+
   render() {
     const { classes } = this.props;
 
@@ -54,7 +71,12 @@ class RandomQuote extends Component {
       <div className={classes.root}>
         <Grid container spacing={24}>
           <Grid item xs={12}>
-            <Quote quoteText={this.state.quoteText} quoteAuthor={this.state.quoteAuthor} getQuotes={this.getQuotes.bind(this)} />
+            <Quote 
+              quoteText={this.state.quoteText} 
+              quoteAuthor={this.state.quoteAuthor} 
+              getQuotes={this.getQuotes.bind(this)} 
+              saveQuotes={this.saveQuotes.bind(this)} 
+            />
           </Grid>
         </Grid>
       </div>

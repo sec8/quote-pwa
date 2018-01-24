@@ -25,6 +25,10 @@ class Quote extends Component {
     this.props.getQuotes();
   }
 
+  saveRandomQuote = () => {
+    this.props.saveQuotes();
+  }
+
   render() {
     const { classes, quoteText, quoteAuthor } = this.props;
 
@@ -41,7 +45,7 @@ class Quote extends Component {
         </CardContent>
         <CardActions className={classes.cardActions}>
           <Button raised onClick={this.getRandomQuote.bind(this)}>Next Quote</Button>
-          <Button raised>Save Quote</Button>
+          <Button raised onClick={this.saveRandomQuote.bind(this)}>Save Quote</Button>
         </CardActions>
         </Card>
       </div>

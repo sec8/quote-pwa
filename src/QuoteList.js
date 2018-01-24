@@ -1,35 +1,51 @@
 import React, { Component } from 'react';
 import { withStyles } from 'material-ui/styles';
 import Typography from 'material-ui/Typography';
-import Divider from 'material-ui/Divider';
+
+
+import QuoteListing from './QuoteListing';
+import DB from './DB';
 
 const styles = {
-  quote: {
+  quoteList: {
   
-  },
-  quoteText: {
-
-  },
-  quoteAuthor: {
-
   },
 };
 
 class Quote extends Component {
 
+  state = {
+    quotes: [],
+  }
+
+  componentDidMount() {
+    this.findQuotes();
+  }
+
+  findQuotes() {
+    DB.findQuotes()
+      .then( (res) => {
+        if ( res ) {
+          this.setState({quotes: res});
+        }
+      });
+  }
+
   render() {
     const { classes } = this.props;
 
+    //if quotes is empty
+    if ( this.state.quotes.length < 1 ) {
+      return (
+        <div>
+          <Typography type="body2">There are no saved Quotes</Typography>
+        </div>
+      )
+    }
+
     return (
-      <div className={classes.quote}>
-        <Typography className={classes.quoteText} type="body2" gutterBottom>
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
-        </Typography>
-        <Typography  className={classes.quoteAuthor} type="body1">
-          - Lorem
-        </Typography>
-        <Divider />
+      <div className={classes.quoteList}>
+        {this.state.quotes.map( item => <QuoteListing key={item.quoteText} data={ item } />)}
       </div>
     );
   }
