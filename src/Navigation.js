@@ -38,8 +38,8 @@ class Navigation extends Component {
     
     const sideBarMenu = (
       <div className={classes.sideBar}>
-        <MenuItem onClick={this.handleToggle} component={Link} to="/">Home</MenuItem>
-        <MenuItem onClick={this.handleToggle} component={Link} to="/about">About</MenuItem>
+        <MenuItem onClick={this.handleToggle} component={Link} to="/">Random Quote</MenuItem>
+        <MenuItem onClick={this.handleToggle} component={Link} to="/yourQuotes">Your Quotes</MenuItem>
       </div>
     );
 

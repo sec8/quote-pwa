@@ -4,22 +4,23 @@ import './App.css';
 
 import Navigation from './Navigation';
 import RandomQuote from './RandomQuote';
+import QuoteList from './QuoteList';
 
 const Page = (props) => (
   <div className="Layout-Wrapper">
     <Navigation title={props.title} />
     <div className="Content-Wrapper">
-      <RandomQuote />
+      {props.component}
     </div>
   </div>
 );
 
 const Home = (props) => (
-  <Page title="Home" />
+  <Page title="Random Quote" component={<RandomQuote />} />
 );
 
-const About = (props) => (
-  <Page title="About" />
+const YourQuotes = (props) => (
+  <Page title="Your Quotes" component={<QuoteList />}/>
 );
 
 class App extends Component {
@@ -27,7 +28,7 @@ class App extends Component {
     return (
       <Switch>
         <Route exact path="/" component={Home}/>
-        <Route path="/about" component={About}/>
+        <Route path="/yourQuotes" component={YourQuotes}/>
       </Switch>
     );
   }
