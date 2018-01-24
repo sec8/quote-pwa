@@ -10,6 +10,14 @@ const styles = {
   root: {
   
   },
+  savedMsg: {
+    textAlign: "Center",
+    color: "Green",
+  },
+  failedMsg: {
+    textAlign: "Center",
+    color: "Red",
+  }
 };
 
 class RandomQuote extends Component {
@@ -39,6 +47,8 @@ class RandomQuote extends Component {
         this.setState({
           quoteText: data.quote,
           quoteAuthor: data.author,
+          quoteSaveFailed: false,
+          requestFailed: false,
         })
       }, () => {
         this.setState({
@@ -58,6 +68,8 @@ class RandomQuote extends Component {
           return DB.addQuote({quoteText, quoteAuthor});
         } else if (res.some(quotes => quotes.quoteText === quoteText) !== true){
           return DB.addQuote({quoteText, quoteAuthor});
+        } else {
+          this.setState({quoteSaveFailed: true});
         }
       })
   }
@@ -65,7 +77,6 @@ class RandomQuote extends Component {
   render() {
     const { classes } = this.props;
 
-    if (this.state.requestFailed) return <p>Failed...</p>
     if (!this.state.quoteText) return <p>Loading...</p>
     return (
       <div className={classes.root}>
@@ -77,6 +88,8 @@ class RandomQuote extends Component {
               getQuotes={this.getQuotes.bind(this)} 
               saveQuotes={this.saveQuotes.bind(this)} 
             />
+            {this.state.quoteSaveFailed ? <p className={classes.savedMsg}>This Quote is already saved!</p> : ""}
+            {this.state.requestFailed ? <p className={classes.failedMsg}>Request Failed</p> : ""}
           </Grid>
         </Grid>
       </div>
