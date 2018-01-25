@@ -27,6 +27,7 @@ const getQuotes = () => {
 
 //seems like a really ugly fix to the first request failed problem
 getRandomQuote();
+getQuotes();
 
 app.get('/quote', function (req, res) {
   getRandomQuote();
@@ -38,8 +39,8 @@ app.get('/quotes', function (req, res) {
   res.send(quotes);
 });
 
-app.get('/', function (req, res) {
-  res.sendFile(path.join(__dirname, 'index.html'));
+app.get('*', function (req, res) {
+  res.sendFile(path.join(__dirname, 'build', 'index.html'));
 });
 
 app.listen(3001, function () {
