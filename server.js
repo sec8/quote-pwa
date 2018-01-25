@@ -1,6 +1,7 @@
 import express from 'express';
 import request from 'request';
 import path from 'path';
+import compression from 'compression';
 
 const app = express();
 const URL = "https://talaikis.com/api/quotes/random/";
@@ -9,6 +10,7 @@ const CACHE_URL = "https://talaikis.com/api/quotes/";
 let randomQuote;
 let quotes;
 
+app.use(compression());
 app.enable("trust proxy");
 app.use(express.static('./build'));
 
@@ -40,7 +42,7 @@ app.get('/quotes', function (req, res) {
 });
 
 app.get('*', function (req, res) {
-  res.sendFile(path.join(__dirname, 'build', 'index.html'));
+  res.sendFile(path.join(__dirname, 'index.html'));
 });
 
 app.listen(3001, function () {
