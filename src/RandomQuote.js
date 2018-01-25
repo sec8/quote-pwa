@@ -34,6 +34,19 @@ class RandomQuote extends Component {
   }
 
   getQuotes = () => {
+    if (!navigator.onLine && DB.findCachedQuotes() != null) {
+      DB.findCachedQuotes()
+      .then(data => {
+        let single = data[Math.floor(Math.random() * 100)];
+        console.log(single);
+        this.setState({
+          quoteText: single.quote,
+          quoteAuthor: single.author,
+          quoteSaveFailed: false,
+          requestFailed: false,
+        })
+      })
+    } else {
     fetch('/quote')
       .then(response => {
         console.log(response);
@@ -55,6 +68,7 @@ class RandomQuote extends Component {
           requestFailed: true
         })
       })
+    }
   };
 
   saveQuotes = () => {
@@ -72,6 +86,28 @@ class RandomQuote extends Component {
           this.setState({quoteSaveFailed: true});
         }
       })
+  };
+
+  cacheQuotes = () => {
+    fetch('/quotes')
+      .then(response => {
+        console.log(response);
+        if (!response.ok) {
+          throw Error("Network request failed")
+        }
+        return response;
+      })
+      .then(data => data.json())
+      .then(data => {
+        DB.cacheQuotes({data})
+        this.setState({
+          requestFailed: false,
+        })
+      }, () => {
+        this.setState({
+          requestFailed: true
+        })
+      })
   }
 
   render() {
@@ -86,7 +122,8 @@ class RandomQuote extends Component {
               quoteText={this.state.quoteText} 
               quoteAuthor={this.state.quoteAuthor} 
               getQuotes={this.getQuotes.bind(this)} 
-              saveQuotes={this.saveQuotes.bind(this)} 
+              saveQuotes={this.saveQuotes.bind(this)}
+              cacheQuotes={this.cacheQuotes.bind(this)}
             />
             {this.state.quoteSaveFailed ? <p className={classes.savedMsg}>This Quote is already saved!</p> : ""}
             {this.state.requestFailed ? <p className={classes.failedMsg}>Request Failed</p> : ""}

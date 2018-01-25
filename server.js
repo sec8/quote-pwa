@@ -4,25 +4,38 @@ import path from 'path';
 
 const app = express();
 const URL = "https://talaikis.com/api/quotes/random/";
+const CACHE_URL = "https://talaikis.com/api/quotes/";
 
-let quote;
+let randomQuote;
+let quotes;
 
 app.enable("trust proxy");
 app.use(express.static('./build'));
 
-const getQuote = () => {
+const getRandomQuote = () => {
   request.get(URL, (error, response, data) => {
     console.log(data);
-    quote = JSON.parse(data);
+    randomQuote = JSON.parse(data);
+  });
+};
+
+const getQuotes = () => {
+  request.get(CACHE_URL, (error, response, data) => {
+    quotes = JSON.parse(data);
   });
 };
 
 //seems like a really ugly fix to the first request failed problem
-getQuote();
+getRandomQuote();
 
 app.get('/quote', function (req, res) {
-  getQuote();
-  res.send(quote);
+  getRandomQuote();
+  res.send(randomQuote);
+});
+
+app.get('/quotes', function (req, res) {
+  getQuotes();
+  res.send(quotes);
 });
 
 app.get('/', function (req, res) {
