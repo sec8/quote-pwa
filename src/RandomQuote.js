@@ -24,74 +24,21 @@ class RandomQuote extends Component {
   state = {
     requestFailed: false,
     quoteSaveFailed: false,
+    quotes: [],
   }
 
   componentDidMount() {
+    this.fetchQuotes();
     this.setState({
       quoteText: "A wise man once said...",
       quoteAuthor: "Nothing",
     })
   }
 
-  getQuotes = () => {
-    if (!navigator.onLine && DB.findCachedQuotes() != null) {
-      DB.findCachedQuotes()
-      .then(data => {
-        let single = data[Math.floor(Math.random() * 100)];
-        console.log(single);
-        this.setState({
-          quoteText: single.quote,
-          quoteAuthor: single.author,
-          quoteSaveFailed: false,
-          requestFailed: false,
-        })
-      })
-    } else {
-    fetch('/quote')
-      .then(response => {
-        console.log(response);
-        if (!response.ok) {
-          throw Error("Network request failed")
-        }
-        return response;
-      })
-      .then(data => data.json())
-      .then(data => {
-        this.setState({
-          quoteText: data.quote,
-          quoteAuthor: data.author,
-          quoteSaveFailed: false,
-          requestFailed: false,
-        })
-      }, () => {
-        this.setState({
-          requestFailed: true
-        })
-      })
-    }
-  };
-
-  saveQuotes = () => {
-    const quoteText = this.state.quoteText;
-    const quoteAuthor = this.state.quoteAuthor;
-
-    DB.findQuotes()
-      .then( (res) => {
-        console.log(res);
-        if (!res) {
-          return DB.addQuote({quoteText, quoteAuthor});
-        } else if (res.some(quotes => quotes.quoteText === quoteText) !== true){
-          return DB.addQuote({quoteText, quoteAuthor});
-        } else {
-          this.setState({quoteSaveFailed: true});
-        }
-      })
-  };
-
-  cacheQuotes = () => {
+  // fetch quotes from the server api and set state
+  fetchQuotes = () => {
     fetch('/quotes')
       .then(response => {
-        console.log(response);
         if (!response.ok) {
           throw Error("Network request failed")
         }
@@ -99,9 +46,9 @@ class RandomQuote extends Component {
       })
       .then(data => data.json())
       .then(data => {
-        DB.cacheQuotes({data})
         this.setState({
           requestFailed: false,
+          quotes: data,
         })
       }, () => {
         this.setState({
@@ -109,6 +56,68 @@ class RandomQuote extends Component {
         })
       })
   }
+
+  // move quotes from the state to the local cache
+  cacheQuotes = () => {
+    this.fetchQuotes();
+    let fetchedQuotes = this.state.quotes;
+    let newQuotes = [];
+
+    DB.findCachedQuotes()
+      .then(data => {
+        if ( ! data ) {
+          DB.cacheQuotes(fetchedQuotes);
+        } else {
+          newQuotes = fetchedQuotes.filter(newQuote => {
+            return (data.some(cachedQuote => cachedQuote.quote === newQuote.quote) !== true);
+          })
+          DB.cacheQuotes(newQuotes);
+        }
+      })
+    
+  }
+
+  // get a random quote from state or local cache
+  getQuote = () => {
+    let random;
+    DB.findCachedQuotes()
+      .then(data => {
+        if ( ! data ) {
+          random = this.state.quotes[Math.floor(Math.random() * this.state.quotes.length)];
+          this.setState({
+            quoteText: random.quote,
+            quoteAuthor: random.author,
+            quoteSaveFailed: false,
+            requestFailed: false,
+          })
+        } else {
+          random = data[Math.floor(Math.random() * data.length)];
+          this.setState({
+            quoteText: random.quote,
+            quoteAuthor: random.author,
+            quoteSaveFailed: false,
+            requestFailed: false,
+          })
+        }
+      })
+  };
+
+  // save a random quote to your quote list
+  saveQuote = () => {
+    const quoteText = this.state.quoteText;
+    const quoteAuthor = this.state.quoteAuthor;
+
+    DB.findQuotes()
+      .then( (data) => {
+        if (!data) {
+          return DB.addQuote({quoteText, quoteAuthor});
+        } else if (data.some(quotes => quotes.quoteText === quoteText) !== true){
+          return DB.addQuote({quoteText, quoteAuthor});
+        } else {
+          this.setState({quoteSaveFailed: true});
+        }
+      })
+  };
 
   render() {
     const { classes } = this.props;
@@ -121,8 +130,8 @@ class RandomQuote extends Component {
             <Quote 
               quoteText={this.state.quoteText} 
               quoteAuthor={this.state.quoteAuthor} 
-              getQuotes={this.getQuotes.bind(this)} 
-              saveQuotes={this.saveQuotes.bind(this)}
+              getQuote={this.getQuote.bind(this)} 
+              saveQuote={this.saveQuote.bind(this)}
               cacheQuotes={this.cacheQuotes.bind(this)}
             />
             {this.state.quoteSaveFailed ? <p className={classes.savedMsg}>This Quote is already saved!</p> : ""}

@@ -26,11 +26,11 @@ const styles = {
 class Quote extends Component {
 
   getRandomQuote = () => {
-    this.props.getQuotes();
+    this.props.getQuote();
   }
 
   saveRandomQuote = () => {
-    this.props.saveQuotes();
+    this.props.saveQuote();
   }
 
   cacheRandomeQuotes = () => {

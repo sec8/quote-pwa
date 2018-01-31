@@ -2,7 +2,7 @@ import localforage from 'localforage';
 
 class DB {
   
-  // add a Quote the the list
+  // add a Quote to the list
   addQuote( data ) {
     return localforage.getItem('quotes')
       .then( res => {
@@ -23,7 +23,7 @@ class DB {
       })
   }
 
-  //find and return the quotes
+  //find and return the quotes from your list
   findQuotes() {
     return localforage.getItem('quotes')
       .then( (records) => {
@@ -36,27 +36,23 @@ class DB {
     return localforage.getItem('cached')
       .then( res => {
         if ( ! res ) {
-          localforage.setItem('cached', data.data)
+          localforage.setItem('cached', data)
             .then( output => {
               return output;
             })
         }
-        /**
-         * removeItem doesn't free any memory on indexedDB
-         */
-        // if ( res && res.length > 0 ) {
-        //   localforage.removeItem('cached')
-        //     .then( output => {
-        //       localforage.setItem('cached', data.data)
-        //         .then( output => {
-        //           return output;
-        //         })
-        //     })
-        // }
+        if ( res && res.length > 0 ) {
+          console.log(res);
+          const updated = res.concat(data);
+          localforage.setItem('cached', updated)
+            .then( output => {
+              return output;
+            })
+        }
       })
   }
 
-  //find cached quotes when offline
+  //find cached quotes
   findCachedQuotes() {
     return localforage.getItem('cached')
       .then( (records) => {
