@@ -29,10 +29,7 @@ class RandomQuote extends Component {
 
   componentDidMount() {
     this.fetchQuotes();
-    this.setState({
-      quoteText: "A wise man once said...",
-      quoteAuthor: "Nothing",
-    })
+    this.getQuote();
   }
 
   // fetch quotes from the server api and set state
