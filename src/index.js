@@ -1,13 +1,16 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter } from 'react-router-dom';
-import './index.css';
 import App from './App';
 import registerServiceWorker from './registerServiceWorker';
+import Reboot from 'material-ui/Reboot/Reboot';
 
 ReactDOM.render((
-  <BrowserRouter>
-    <App />
-  </BrowserRouter>
+  <div>
+    <Reboot />
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
+  </div>
 ), document.getElementById('root'));
 //registerServiceWorker();

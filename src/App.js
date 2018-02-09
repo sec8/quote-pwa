@@ -1,20 +1,10 @@
 import React, { Component } from 'react';
 import { Switch, Route } from 'react-router-dom';
-import './App.css';
 import 'typeface-roboto';
 
-import Navigation from './Navigation';
 import RandomQuote from './RandomQuote';
 import QuoteList from './QuoteList';
-
-const Page = (props) => (
-  <div className="Layout-Wrapper">
-    <Navigation title={props.title} />
-    <div className="Content-Wrapper">
-      {props.component}
-    </div>
-  </div>
-);
+import Page from './Page';
 
 const Home = (props) => (
   <Page title="Random Quote" component={<RandomQuote />} />
