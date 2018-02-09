@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Switch, Route } from 'react-router-dom';
 import './App.css';
+import 'typeface-roboto';
 
 import Navigation from './Navigation';
 import RandomQuote from './RandomQuote';
