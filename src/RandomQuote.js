@@ -24,12 +24,12 @@ class RandomQuote extends Component {
   state = {
     requestFailed: false,
     quoteSaveFailed: false,
+    initialQuoteSet: false,
     quotes: [],
   }
 
   componentDidMount() {
     this.fetchQuotes();
-    this.getQuote();
   }
 
   // fetch quotes from the server api and set state
@@ -43,10 +43,18 @@ class RandomQuote extends Component {
       })
       .then(data => data.json())
       .then(data => {
+        let random = data[Math.floor(Math.random() * data.length)];
         this.setState({
           requestFailed: false,
           quotes: data,
         })
+        if (!this.state.initialQuoteSet) {
+          this.setState({
+            quoteText: random.quote,
+            quoteAuthor: random.author,
+            initialQuoteSet: true,
+          })
+        }
       }, () => {
         this.setState({
           requestFailed: true
@@ -81,21 +89,15 @@ class RandomQuote extends Component {
       .then(data => {
         if ( ! data ) {
           random = this.state.quotes[Math.floor(Math.random() * this.state.quotes.length)];
-          this.setState({
-            quoteText: random.quote,
-            quoteAuthor: random.author,
-            quoteSaveFailed: false,
-            requestFailed: false,
-          })
         } else {
           random = data[Math.floor(Math.random() * data.length)];
-          this.setState({
-            quoteText: random.quote,
-            quoteAuthor: random.author,
-            quoteSaveFailed: false,
-            requestFailed: false,
-          })
         }
+        this.setState({
+          quoteText: random.quote,
+          quoteAuthor: random.author,
+          quoteSaveFailed: false,
+          requestFailed: false,
+        })
       })
   };
 
