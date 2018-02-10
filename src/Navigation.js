@@ -4,12 +4,13 @@ import { withStyles } from 'material-ui/styles';
 import AppBar from 'material-ui/AppBar';
 import ToolBar from 'material-ui/Toolbar';
 import Drawer from 'material-ui/Drawer';
+import Divider from 'material-ui/Divider';
 import Typography from 'material-ui/Typography';
 import IconButton from 'material-ui/IconButton';
 import MenuIcon from 'material-ui-icons/Menu';
 import { MenuItem } from 'material-ui/Menu';
 
-const styles = {
+const styles = theme => ({
   root: {
     width: '100%',
   },
@@ -22,8 +23,12 @@ const styles = {
   },
   sideBar: {
     width: 250
+  },
+  sideBarHeader: theme.mixins.toolbar,
+  sideBarHeaderTitle: {
+    padding: "15px 16px",
   }
-};
+});
 
 class Navigation extends Component {
 
@@ -38,6 +43,10 @@ class Navigation extends Component {
     
     const sideBarMenu = (
       <div className={classes.sideBar}>
+        <div className={classes.sideBarHeader}>
+          <Typography className={classes.sideBarHeaderTitle} type="title">Quote PWA</Typography>
+        </div>
+        <Divider />
         <MenuItem onClick={this.handleToggle} component={Link} to="/">Random Quote</MenuItem>
         <MenuItem onClick={this.handleToggle} component={Link} to="/yourQuotes">Your Quotes</MenuItem>
       </div>
