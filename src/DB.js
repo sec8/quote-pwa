@@ -42,7 +42,6 @@ class DB {
             })
         }
         if ( res && res.length > 0 ) {
-          console.log(res);
           const updated = res.concat(data);
           localforage.setItem('cached', updated)
             .then( output => {

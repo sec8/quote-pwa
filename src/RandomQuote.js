@@ -1,12 +1,9 @@
 import React, { Component } from 'react';
 import { withStyles } from 'material-ui/styles';
 import Grid from 'material-ui/Grid';
-import Paper from 'material-ui/Paper';
 import Button from 'material-ui/Button';
 import Save from 'material-ui-icons/Save';
 import KeyboardArrowRight from 'material-ui-icons/KeyboardArrowRight'
-import Typography from 'material-ui/Typography';
-import IconButton from 'material-ui/IconButton';
 
 import Stats from './Stats';
 import Quote from './Quote';
@@ -144,7 +141,7 @@ class RandomQuote extends Component {
   };
 
   // save a random quote to your quote list
-  saveQuote = () => {
+  addQuote = () => {
     const quoteText = this.state.quoteText;
     const quoteAuthor = this.state.quoteAuthor;
 
@@ -153,15 +150,17 @@ class RandomQuote extends Component {
         if (!data ) {
           DB.addQuote({quoteText, quoteAuthor});
           this.setState({
-            numberOfSavedQuotes: 1
+            numberOfSavedQuotes: 1,
+            quoteSaveFailed: true
           })
         } else if (data.some(quotes => quotes.quoteText === quoteText) !== true){
           DB.addQuote({quoteText, quoteAuthor});
           this.setState({
-            numberOfSavedQuotes: data.length + 1
+            numberOfSavedQuotes: data.length + 1,
+            quoteSaveFailed: true
           })
         } else {
-          this.setState({quoteSaveFailed: true});
+          return;
         }
       })
   };
@@ -182,7 +181,7 @@ class RandomQuote extends Component {
           <Grid item xs={6} md={6}>
             <Button 
               className={classes.actionButton} 
-              onClick={this.saveQuote.bind(this)}
+              onClick={this.addQuote.bind(this)}
               color="primary"
               raised
             >
@@ -209,8 +208,8 @@ class RandomQuote extends Component {
             />
           </Grid>
           <Grid item xs={12} md={6}>
-              {this.state.quoteSaveFailed ? <p className={classes.savedMsg}>This Quote is already saved!</p> : ""}
-              {this.state.requestFailed ? <p className={classes.failedMsg}>Request Failed</p> : ""}
+              {this.state.quoteSaveFailed ? <p className={classes.savedMsg}>Quote saved!</p> : ""}
+              {this.state.requestFailed ? <p className={classes.failedMsg}>Request Failed!</p> : ""}
           </Grid>
         </Grid>
       </div>

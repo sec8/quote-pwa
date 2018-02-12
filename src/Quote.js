@@ -29,7 +29,7 @@ class Quote extends Component {
         <Card className={classes.card}>
         <CardContent>
           <FormatQuote className={classes.quoteIcon} color="primary" />
-          <Typography className={classes.quoteText} type="title" gutterBottom>
+          <Typography type="title" gutterBottom>
             {quoteText}
           </Typography>
             -

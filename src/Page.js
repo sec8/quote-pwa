@@ -1,6 +1,5 @@
 import React from 'react';
 import { withStyles } from 'material-ui/styles';
-
 import Navigation from './Navigation';
 
 const styles = theme => ({

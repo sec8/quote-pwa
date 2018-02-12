@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Switch, Route } from 'react-router-dom';
 import 'typeface-roboto';
-
 import RandomQuote from './RandomQuote';
 import QuoteList from './QuoteList';
 import Page from './Page';
