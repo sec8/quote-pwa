@@ -38,14 +38,36 @@ class RandomQuote extends Component {
     requestFailed: false,
     quoteSaveFailed: false,
     initialQuoteSet: false,
-    numberOFCachedQuotes: 0,
+    numberOfCachedQuotes: 0,
+    numberOfSavedQuotes: 0,
     quotes: [],
   }
 
   componentDidMount() {
     this.fetchQuotes();
+    this.getStatistics();
   }
   
+  getStatistics = () => {
+    DB.findCachedQuotes()
+      .then(data => {
+        if (data) {
+          this.setState({
+            numberOfCachedQuotes: data.length
+          })
+        }
+      })
+    
+    DB.findQuotes()
+      .then(data => {
+        if (data) {
+          this.setState({
+            numberOfSavedQuotes: data.length
+          })
+        }
+      })
+  }
+
   // fetch quotes from the server api and set state
   fetchQuotes = () => {
     fetch('/quotes')
@@ -86,11 +108,17 @@ class RandomQuote extends Component {
       .then(data => {
         if ( ! data ) {
           DB.cacheQuotes(fetchedQuotes);
+          this.setState({
+            numberOfCachedQuotes: fetchedQuotes.length
+          })
         } else {
           newQuotes = fetchedQuotes.filter(newQuote => {
             return (data.some(cachedQuote => cachedQuote.quote === newQuote.quote) !== true);
           })
           DB.cacheQuotes(newQuotes);
+          this.setState({
+            numberOfCachedQuotes: data.length + newQuotes.length
+          })
         }
       })
 
@@ -122,10 +150,16 @@ class RandomQuote extends Component {
 
     DB.findQuotes()
       .then( (data) => {
-        if (!data) {
-          return DB.addQuote({quoteText, quoteAuthor});
+        if (!data ) {
+          DB.addQuote({quoteText, quoteAuthor});
+          this.setState({
+            numberOfSavedQuotes: 1
+          })
         } else if (data.some(quotes => quotes.quoteText === quoteText) !== true){
-          return DB.addQuote({quoteText, quoteAuthor});
+          DB.addQuote({quoteText, quoteAuthor});
+          this.setState({
+            numberOfSavedQuotes: data.length + 1
+          })
         } else {
           this.setState({quoteSaveFailed: true});
         }
@@ -168,7 +202,11 @@ class RandomQuote extends Component {
             </Button>
           </Grid>
           <Grid item xs={12} md={6}>
-            <Stats />
+            <Stats 
+              cacheQuotes={this.cacheQuotes.bind(this)}
+              numberOfCachedQuotes={this.state.numberOfCachedQuotes} 
+              numberOfSavedQuotes={this.state.numberOfSavedQuotes}
+            />
           </Grid>
           <Grid item xs={12} md={6}>
               {this.state.quoteSaveFailed ? <p className={classes.savedMsg}>This Quote is already saved!</p> : ""}
