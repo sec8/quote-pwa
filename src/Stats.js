@@ -4,7 +4,7 @@ import { withStyles } from 'material-ui/styles';
 import Typography from 'material-ui/Typography';
 import Divider from 'material-ui/Divider';
 import Button from 'material-ui/Button';
-import Save from 'material-ui-icons/Save';
+import Cached from 'material-ui-icons/Cached';
 
 const styles = theme => ({
   cardContent: {
@@ -31,7 +31,7 @@ const Stats = (props) => {
       <Divider />
       <CardActions>
         <Button  className={classes.actionButton} color="primary" raised>
-          <Save className={classes.actionIcon} />
+          <Cached className={classes.actionIcon} />
           Cache Quotes
         </Button>
       </CardActions>

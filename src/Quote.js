@@ -13,6 +13,10 @@ const styles = theme => ({
   },
   quoteAuthor: {
     color: theme.palette.primary.main,
+  },
+  authorLink: {
+    textDecoration: "none",
+    color: "inherit"
   }
 });
 
@@ -30,7 +34,7 @@ class Quote extends Component {
           </Typography>
             -
           <Typography  className={classes.quoteAuthor} type="subheading">
-            {quoteAuthor}
+            <a className={classes.authorLink} href={"http://wikipedia.com/wiki/" + quoteAuthor}>{quoteAuthor}</a>
           </Typography>
         </CardContent>
         </Card>

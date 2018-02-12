@@ -4,6 +4,7 @@ import Grid from 'material-ui/Grid';
 import Paper from 'material-ui/Paper';
 import Button from 'material-ui/Button';
 import Save from 'material-ui-icons/Save';
+import KeyboardArrowRight from 'material-ui-icons/KeyboardArrowRight'
 import Typography from 'material-ui/Typography';
 import IconButton from 'material-ui/IconButton';
 
@@ -26,6 +27,9 @@ const styles = theme => ({
   failedMsg: {
     textAlign: "Center",
     color: "Red",
+  },
+  saveIcon: {
+    marginLeft: theme.spacing.unit
   }
 });
 
@@ -149,6 +153,7 @@ class RandomQuote extends Component {
               raised
             >
               Save
+              <Save className={classes.saveIcon} />
             </Button>
           </Grid>
           <Grid  item xs={6} md={6}>
@@ -159,6 +164,7 @@ class RandomQuote extends Component {
               raised
             >
               Next
+              <KeyboardArrowRight />
             </Button>
           </Grid>
           <Grid item xs={12} md={6}>
