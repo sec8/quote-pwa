@@ -5,6 +5,7 @@ import Button from 'material-ui/Button';
 import Save from 'material-ui-icons/Save';
 import KeyboardArrowRight from 'material-ui-icons/KeyboardArrowRight'
 
+import Loading from './Loading';
 import Stats from './Stats';
 import Quote from './Quote';
 import DB from './DB';
@@ -37,6 +38,7 @@ class RandomQuote extends Component {
     initialQuoteSet: false,
     numberOfCachedQuotes: 0,
     numberOfSavedQuotes: 0,
+    test: true,
     quotes: [],
   }
 
@@ -168,15 +170,19 @@ class RandomQuote extends Component {
   render() {
     const { classes } = this.props;
 
-    if (!this.state.quoteText) return <p>Loading...</p>
+    const QuoteArea = () => {
+      if (!this.state.quoteText) {
+        return <Loading />
+      } else {
+        return <Quote quoteText={this.state.quoteText} quoteAuthor={this.state.quoteAuthor} />
+      }
+    }
+
     return (
       <div className={classes.root}>
         <Grid container spacing={24}>
           <Grid item xs={12}>
-            <Quote 
-              quoteText={this.state.quoteText} 
-              quoteAuthor={this.state.quoteAuthor}
-            />
+            <QuoteArea />
           </Grid>
           <Grid item xs={6} md={6}>
             <Button 
