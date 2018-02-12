@@ -1,14 +1,23 @@
 import React, { Component } from 'react';
 import { withStyles } from 'material-ui/styles';
 import Grid from 'material-ui/Grid';
+import Paper from 'material-ui/Paper';
+import Button from 'material-ui/Button';
+import Save from 'material-ui-icons/Save';
+import Typography from 'material-ui/Typography';
+import IconButton from 'material-ui/IconButton';
 
+import Stats from './Stats';
 import Quote from './Quote';
 import DB from './DB';
 
 
-const styles = {
+const styles = theme => ({
   root: {
   
+  },
+  actionButton: {
+    width: "100%"
   },
   savedMsg: {
     textAlign: "Center",
@@ -18,20 +27,21 @@ const styles = {
     textAlign: "Center",
     color: "Red",
   }
-};
+});
 
 class RandomQuote extends Component {
   state = {
     requestFailed: false,
     quoteSaveFailed: false,
     initialQuoteSet: false,
+    numberOFCachedQuotes: 0,
     quotes: [],
   }
 
   componentDidMount() {
     this.fetchQuotes();
   }
-
+  
   // fetch quotes from the server api and set state
   fetchQuotes = () => {
     fetch('/quotes')
@@ -79,7 +89,7 @@ class RandomQuote extends Component {
           DB.cacheQuotes(newQuotes);
         }
       })
-    
+
   }
 
   // get a random quote from state or local cache
@@ -128,13 +138,35 @@ class RandomQuote extends Component {
           <Grid item xs={12}>
             <Quote 
               quoteText={this.state.quoteText} 
-              quoteAuthor={this.state.quoteAuthor} 
-              getQuote={this.getQuote.bind(this)} 
-              saveQuote={this.saveQuote.bind(this)}
-              cacheQuotes={this.cacheQuotes.bind(this)}
+              quoteAuthor={this.state.quoteAuthor}
             />
-            {this.state.quoteSaveFailed ? <p className={classes.savedMsg}>This Quote is already saved!</p> : ""}
-            {this.state.requestFailed ? <p className={classes.failedMsg}>Request Failed</p> : ""}
+          </Grid>
+          <Grid item xs={6} md={6}>
+            <Button 
+              className={classes.actionButton} 
+              onClick={this.saveQuote.bind(this)}
+              color="primary"
+              raised
+            >
+              Save
+            </Button>
+          </Grid>
+          <Grid  item xs={6} md={6}>
+            <Button 
+              className={classes.actionButton} 
+              onClick={this.getQuote.bind(this)}
+              color="primary"
+              raised
+            >
+              Next
+            </Button>
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <Stats />
+          </Grid>
+          <Grid item xs={12} md={6}>
+              {this.state.quoteSaveFailed ? <p className={classes.savedMsg}>This Quote is already saved!</p> : ""}
+              {this.state.requestFailed ? <p className={classes.failedMsg}>Request Failed</p> : ""}
           </Grid>
         </Grid>
       </div>

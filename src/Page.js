@@ -17,7 +17,8 @@ const styles = theme => ({
       paddingTop: "64px",
     },
     [theme.breakpoints.up(948)]: {
-      maxWidth: "900px"
+      maxWidth: "900px",
+      paddingTop: "74px",
     },
   },
 });
