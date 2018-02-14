@@ -10,11 +10,7 @@ import Stats from './Stats';
 import Quote from './Quote';
 import DB from './DB';
 
-
 const styles = theme => ({
-  root: {
-  
-  },
   actionButton: {
     width: "100%"
   },
@@ -38,7 +34,6 @@ class RandomQuote extends Component {
     initialQuoteSet: false,
     numberOfCachedQuotes: 0,
     numberOfSavedQuotes: 0,
-    test: true,
     quotes: [],
   }
 
@@ -170,19 +165,14 @@ class RandomQuote extends Component {
   render() {
     const { classes } = this.props;
 
-    const QuoteArea = () => {
-      if (!this.state.quoteText) {
-        return <Loading />
-      } else {
-        return <Quote quoteText={this.state.quoteText} quoteAuthor={this.state.quoteAuthor} />
-      }
-    }
-
     return (
-      <div className={classes.root}>
+      <div>
         <Grid container spacing={24}>
           <Grid item xs={12}>
-            <QuoteArea />
+            {!this.state.quoteText ? 
+              <Loading /> 
+            : <Quote quoteText={this.state.quoteText} quoteAuthor={this.state.quoteAuthor} />
+            }
           </Grid>
           <Grid item xs={6} md={6}>
             <Button 

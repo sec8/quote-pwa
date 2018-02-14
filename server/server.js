@@ -12,7 +12,6 @@ let quotes;
 
 app.use(compression());
 app.enable("trust proxy");
-app.use(express.static('./build'));
 
 const getRandomQuote = () => {
   request.get(URL, (error, response, data) => {
@@ -41,8 +40,9 @@ app.get('/quotes', function (req, res) {
   res.send(quotes);
 });
 
+app.use(express.static('./build'));
 app.get('*', function (req, res) {
-  res.sendFile(path.join(__dirname, 'index.html'));
+  res.sendFile(path.join(__dirname, '..', 'build', 'index.html'));
 });
 
 app.listen(3001, function () {

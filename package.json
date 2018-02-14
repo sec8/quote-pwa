@@ -29,15 +29,17 @@
     "concurrently": "^3.5.1"
   },
   "scripts": {
-    "now-start": "NODE_ENV=production node build/server.js",
-    "start": "concurrently \" PORT=3000 react-scripts start\" \"PORT=3001 babel-watch server.js\"",
-    "build": "react-scripts build && NODE_ENV=production babel server.js -d build",
+    "now-start": "NODE_ENV=production node babel-server/server.js",
+    "start": "concurrently \" PORT=3000 react-scripts start\" \"PORT=3001 babel-watch server/server.js\"",
+    "build": "react-scripts build && NODE_ENV=production babel server/server.js -d babel-server && yarn babelify",
+    "babelify": "NODE_ENV=production babel src --out-dir babel-src --copy-files",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
   },
   "babel": {
     "presets": [
       "es2015",
+      "react",
       "stage-2"
     ]
   }
