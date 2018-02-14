@@ -8,6 +8,7 @@ import { StaticRouter } from 'react-router-dom';
 import JssProvider from 'react-jss/lib/JssProvider';
 import { SheetsRegistry } from 'react-jss/lib/jss';
 import { MuiThemeProvider, createGenerateClassName } from 'material-ui/styles';
+import Reboot from 'material-ui/Reboot/Reboot';
 import fs from 'fs';
 import App from '../babel-src/App';
 import theme from '../babel-src/theme';
@@ -21,6 +22,23 @@ let quotes;
 
 app.use(compression());
 app.enable("trust proxy");
+
+const getRandomQuote = () => {
+  request.get(URL, (error, response, data) => {
+    console.log(data);
+    randomQuote = JSON.parse(data);
+  });
+};
+
+const getQuotes = () => {
+  request.get(CACHE_URL, (error, response, data) => {
+    quotes = JSON.parse(data);
+  });
+};
+
+//seems like a really ugly fix to the first request failed problem
+getRandomQuote();
+getQuotes();
 
 const serverRender = (req, res) => {
   const htmlFile = path.resolve(__dirname, '..', 'build', 'index.html');
@@ -36,6 +54,7 @@ const serverRender = (req, res) => {
     const html = renderToString(
       <JssProvider registry={sheetsRegistry} generateClassName={generateClassName}>
         <MuiThemeProvider theme={theme} sheetsManager={new Map()}>
+          <Reboot />
           <StaticRouter location={req.url} context={ context }>
             <App />
           </StaticRouter>
@@ -54,23 +73,6 @@ const serverRender = (req, res) => {
     )
   })
 }
-
-const getRandomQuote = () => {
-  request.get(URL, (error, response, data) => {
-    console.log(data);
-    randomQuote = JSON.parse(data);
-  });
-};
-
-const getQuotes = () => {
-  request.get(CACHE_URL, (error, response, data) => {
-    quotes = JSON.parse(data);
-  });
-};
-
-//seems like a really ugly fix to the first request failed problem
-getRandomQuote();
-getQuotes();
 
 app.get('/quote', function (req, res) {
   getRandomQuote();
