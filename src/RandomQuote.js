@@ -66,6 +66,17 @@ class RandomQuote extends Component {
       })
   }
 
+  initRandomQuoteGen = () => {
+    DB.findCachedQuotes()
+      .then(data => {
+        if (!data) {
+          this.fetchQuotes();
+        } else {
+          this.getQuote();
+        }
+      })
+  }
+
   // fetch quotes from the server api and set state
   fetchQuotes = () => {
     fetch('/quotes')
@@ -82,6 +93,7 @@ class RandomQuote extends Component {
           requestFailed: false,
           quotes: data,
         })
+        this.cacheQuotes();
         if (!this.state.initialQuoteSet) {
           this.setState({
             quoteText: random.quote,
@@ -98,7 +110,6 @@ class RandomQuote extends Component {
 
   // move quotes from the state to the local cache
   cacheQuotes = () => {
-    this.fetchQuotes();
     let fetchedQuotes = this.state.quotes;
     let newQuotes = [];
 
@@ -127,11 +138,8 @@ class RandomQuote extends Component {
     let random;
     DB.findCachedQuotes()
       .then(data => {
-        if ( ! data ) {
-          random = this.state.quotes[Math.floor(Math.random() * this.state.quotes.length)];
-        } else {
-          random = data[Math.floor(Math.random() * data.length)];
-        }
+        random = data[Math.floor(Math.random() * data.length)];
+
         this.setState({
           quoteText: random.quote,
           quoteAuthor: random.author,
@@ -202,7 +210,7 @@ class RandomQuote extends Component {
           </Grid>
           <Grid item xs={12} md={6}>
             <Stats 
-              cacheQuotes={this.cacheQuotes.bind(this)}
+              fetchQuotes={this.fetchQuotes.bind(this)}
               numberOfCachedQuotes={this.state.numberOfCachedQuotes} 
               numberOfSavedQuotes={this.state.numberOfSavedQuotes}
             />
