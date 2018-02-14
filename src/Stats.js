@@ -22,7 +22,7 @@ const styles = theme => ({
 class Stats extends Component{
 
   cacheRandomQuotes = () => {
-    this.props.cacheQuotes();
+    this.props.fetchQuotes();
   }
 
   render() {
