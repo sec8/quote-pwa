@@ -25,7 +25,6 @@ const styles = theme => ({
     background: theme.palette.grey[200],
     width: "10%",
     height: "1em",
-
   }
 });
 
