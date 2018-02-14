@@ -38,11 +38,7 @@ class RandomQuote extends Component {
   }
 
   componentDidMount() {
-    if (navigator.onLine) {
-      this.fetchQuotes();
-    } else {
-      this.getQuote();
-    }
+    this.initRandomQuoteGen();
     this.getStatistics();
   }
   
