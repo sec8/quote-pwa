@@ -34,7 +34,14 @@ class Quote extends Component {
           </Typography>
             -
           <Typography  className={classes.quoteAuthor} type="subheading">
-            <a className={classes.authorLink} href={"http://wikipedia.com/wiki/" + quoteAuthor}>{quoteAuthor}</a>
+            <a 
+              className={classes.authorLink} 
+              href={"http://wikipedia.com/wiki/" + quoteAuthor} 
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              {quoteAuthor}
+            </a>
           </Typography>
         </CardContent>
         </Card>

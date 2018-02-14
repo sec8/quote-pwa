@@ -1,7 +1,9 @@
 {
+  "name": "quote-pwa",
+  "alias": "quote-pwa-csr",
   "files": [
     "public",
-    "server.js",
+    "server",
     "src"
   ]
 }

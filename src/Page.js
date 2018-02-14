@@ -1,6 +1,7 @@
 import React from 'react';
 import { withStyles } from 'material-ui/styles';
 import Navigation from './Navigation';
+import Footer from './Footer';
 
 const styles = theme => ({
   layoutWrapper: {
@@ -30,6 +31,7 @@ const Page = (props) => {
       <Navigation title={props.title} />
       <div className={classes.contentWrapper}>
         {component}
+        <Footer />
       </div>
     </div>
   )

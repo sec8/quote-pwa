@@ -9,6 +9,14 @@ const theme = createMuiTheme({
       contrastText: '#fff',
     }
   },
+  typography: {
+    body1: {
+      fontSize: "1rem"
+    },
+    caption: {
+      fontSize: "1rem"
+    }
+  }
 });
 
 export default theme;
