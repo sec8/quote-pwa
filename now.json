@@ -1,4 +1,6 @@
 {
+  "name": "quote-pwa",
+  "alias": "quote-pwa-csr",
   "files": [
     "public",
     "server",

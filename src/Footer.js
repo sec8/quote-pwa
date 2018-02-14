@@ -1,5 +1,4 @@
 import React from 'react';
-import {Link} from 'react-router-dom';
 import { withStyles } from 'material-ui/styles';
 import Typography from 'material-ui/Typography';
 import Divider from 'material-ui/Divider';
@@ -7,6 +6,7 @@ import Divider from 'material-ui/Divider';
 const styles = theme => ({
   root: {
     textAlign: "center",
+    marginTop: "1.35em"
   },
   footerText: {
     marginTop: "1.35em"
@@ -25,9 +25,14 @@ const Footer = (props) => {
       <Divider />
       <Typography className={classes.footerText} type="body1" gutterBottom>
         Coded by Andreas Höpcke | Quote API by&nbsp; 
-        <Link className={classes.footerLink} to="https://talaikis.com" target="_blank">
+        <a 
+          className={classes.footerLink} 
+          href="https://talaikis.com" 
+          target="_blank"
+          rel="noopener noreferrer"
+        >
           Tadas Talaikis
-        </Link>
+        </a>
       </Typography>
     </div>
   )
