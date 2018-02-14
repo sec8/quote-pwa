@@ -14,9 +14,10 @@ class App extends Component {
   }
 
   render() {
+    const { initialQuote } = this.props
 
     const Home = (props) => (
-      <Page title="Random Quote" component={<RandomQuote />} />
+      <Page title="Random Quote" component={<RandomQuote initialQuote={initialQuote} />} />
     );
     
     const YourQuotes = (props) => (
@@ -25,7 +26,7 @@ class App extends Component {
 
     return (
       <Switch>
-        <Route exact path="/" render={() => (<Home />)}/>
+        <Route exact path="/" render={() => (<Home initialQuote={initialQuote} />)}/>
         <Route path="/yourQuotes" component={YourQuotes}/>
       </Switch>
     );

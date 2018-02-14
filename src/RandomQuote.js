@@ -34,6 +34,8 @@ class RandomQuote extends Component {
     initialQuoteSet: false,
     numberOfCachedQuotes: 0,
     numberOfSavedQuotes: 0,
+    quoteText: this.props.initialQuote.quote,
+    quoteAuthor: this.props.initialQuote.author,
     quotes: [],
   }
 
@@ -73,18 +75,10 @@ class RandomQuote extends Component {
       })
       .then(data => data.json())
       .then(data => {
-        let random = data[Math.floor(Math.random() * data.length)];
         this.setState({
           requestFailed: false,
           quotes: data,
         })
-        if (!this.state.initialQuoteSet) {
-          this.setState({
-            quoteText: random.quote,
-            quoteAuthor: random.author,
-            initialQuoteSet: true,
-          })
-        }
       }, () => {
         this.setState({
           requestFailed: true

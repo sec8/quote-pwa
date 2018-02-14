@@ -56,7 +56,7 @@ const serverRender = (req, res) => {
         <MuiThemeProvider theme={theme} sheetsManager={new Map()}>
           <Reboot />
           <StaticRouter location={req.url} context={ context }>
-            <App />
+            <App initialQuote={randomQuote} />
           </StaticRouter>
         </MuiThemeProvider>
       </JssProvider>
@@ -68,7 +68,10 @@ const serverRender = (req, res) => {
       htmlData.replace(
         '<div id="root"></div>',
         `<div id="root">${html}</div>
-         <style id="jss-server-side">${css}</style>`
+         <style id="jss-server-side">${css}</style>
+         <script>
+         window.__PRELOADED_STATE__=${JSON.stringify(randomQuote).replace(/</g, '\\u003c')}
+         </script>`
       )
     )
   })

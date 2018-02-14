@@ -12,7 +12,7 @@ ReactDOM.render((
   <MuiThemeProvider theme={theme}>
     <Reboot />
     <BrowserRouter>
-      <App />
+      <App initialQuote={window.__PRELOADED_STATE__}/>
     </BrowserRouter>
   </MuiThemeProvider>
   </div>
