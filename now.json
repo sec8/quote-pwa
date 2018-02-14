@@ -1,7 +1,7 @@
 {
   "files": [
     "public",
-    "server.js",
+    "server",
     "src"
   ]
 }

@@ -1,6 +1,7 @@
 {
   "short_name": "Quote PWA",
   "name": "Quote PWA",
+  "description": "Quote-PWA: A Random Quote Generator with offline capability.",
   "icons": [
     {
       "src": "/android-chrome-192x192.png",
