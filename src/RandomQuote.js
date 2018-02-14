@@ -40,7 +40,11 @@ class RandomQuote extends Component {
   }
 
   componentDidMount() {
-    this.fetchQuotes();
+    if (navigator.onLine) {
+      this.fetchQuotes();
+    } else {
+      this.getQuote();
+    }
     this.getStatistics();
   }
   

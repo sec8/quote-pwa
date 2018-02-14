@@ -26,7 +26,14 @@ const QuoteListing = (props) => {
         "{data.quoteText}"
       </Typography>
       <Typography className={classes.quoteAuthor} type="caption" gutterBottom>
-        - <a className={classes.authorLink} href={"http://wikipedia.com/wiki/" + data.quoteAuthor}>{data.quoteAuthor}</a>
+        - <a 
+            className={classes.authorLink} 
+            href={"http://wikipedia.com/wiki/" + data.quoteAuthor} 
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            {data.quoteAuthor}
+         </a>
       </Typography>
       <Divider />
     </div>
