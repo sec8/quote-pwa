@@ -75,10 +75,6 @@ class RandomQuote extends Component {
     DB.findCachedQuotes()
       .then(data => {
         if (!data) {
-          this.setState({
-            quoteText: this.props.initialQuote.quote,
-            quoteAuthor: this.props.initialQuote.author,
-          })
           this.fetchQuotes();
         } else {
           this.getQuote();
