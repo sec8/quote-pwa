@@ -15,7 +15,6 @@
     <link rel="icon" type="image/png" sizes="32x32" href="%PUBLIC_URL%/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="%PUBLIC_URL%/favicon-16x16.png">
     <link rel="mask-icon" href="%PUBLIC_URL%/safari-pinned-tab.svg" color="#5bbad5">
-    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500" rel="stylesheet">
     <!--
       Notice the use of %PUBLIC_URL% in the tags above.
       It will be replaced with the URL of the `public` folder during the build.
@@ -42,5 +41,30 @@
       To begin the development, run `npm start` or `yarn start`.
       To create a production bundle, use `npm run build` or `yarn build`.
     -->
+    <script>
+      var remoteStyles = [
+        'https://fonts.googleapis.com/css?family=Roboto:400,300,500',  ];
+    
+      // Asynchronously load CSS with a Request Animation Frame
+      // For older browser support see this for a simple shim
+      // http://www.paulirish.com/2011/requestanimationframe-for-smart-animating/
+      window.requestAnimationFrame(function() {
+        var elementToInsertLinkBefore =
+          document.getElementsByTagName('script')[0];
+        for (var i = 0; i < remoteStyles.length; i++) {
+          var linkElement = document.createElement('link');
+          linkElement.rel = 'stylesheet';
+          linkElement.media = 'all';
+          linkElement.href = remoteStyles[i];
+    
+          elementToInsertLinkBefore.parentNode.insertBefore(linkElement,
+            elementToInsertLinkBefore);
+        }
+      });
+    </script>
+    <!-- In case the browser has JS disabled -->
+    <noscript>
+      <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,500" rel="stylesheet" property="stylesheet" media="all">
+    </noscript>
   </body>
 </html>
