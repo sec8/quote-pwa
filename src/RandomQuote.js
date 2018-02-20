@@ -37,6 +37,15 @@ class RandomQuote extends Component {
     quotes: [],
   }
 
+  componentWillMount() {
+    if(this.props.initialQuote) {
+      this.setState({
+        quoteText: this.props.initialQuote.quote,
+        quoteAuthor: this.props.initialQuote.author,
+      })
+    }
+  }
+
   componentDidMount() {
     this.initRandomQuoteGen();
     this.getStatistics();
