@@ -16,6 +16,8 @@
     - ### [`SSR-with-content`](https://github.com/sec8/quote-pwa/tree/SSR-with-content))
 
           Initial Server Side Rendering with content
+          This is the final branch, there are some comments in the relevant files:
+          server.js, app.js, db.js, index.js and randomquote.js
 
 ## Setup
 
