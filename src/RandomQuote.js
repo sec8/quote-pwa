@@ -28,6 +28,7 @@ const styles = theme => ({
 });
 
 class RandomQuote extends Component {
+  // define the initial component states
   state = {
     requestFailed: false,
     quoteSaveFailed: false,
@@ -37,7 +38,9 @@ class RandomQuote extends Component {
     quotes: [],
   }
 
+  //set initial quote before rendering
   componentWillMount() {
+    //is just true for the initial ssr
     if(this.props.initialQuote) {
       this.setState({
         quoteText: this.props.initialQuote.quote,
@@ -46,12 +49,15 @@ class RandomQuote extends Component {
     }
   }
 
+  //init functions that are called after rendering
   componentDidMount() {
     this.initRandomQuoteGen();
     this.getStatistics();
   }
   
+  //get statistics based on the data in the local storage
   getStatistics = () => {
+    //stats for saved quotes for offline use
     DB.findCachedQuotes()
       .then(data => {
         if (data) {
@@ -60,7 +66,7 @@ class RandomQuote extends Component {
           })
         }
       })
-    
+    //stas for quotes in the favlist
     DB.findQuotes()
       .then(data => {
         if (data) {
@@ -71,18 +77,22 @@ class RandomQuote extends Component {
       })
   }
 
+  //init function for the initial quote
   initRandomQuoteGen = () => {
+    //check for quotes in local storage
     DB.findCachedQuotes()
       .then(data => {
         if (!data) {
+          //fetch quotes from the server if there are none
           this.fetchQuotes();
         } else {
+          //get initial quote from local storage
           this.getQuote();
         }
       })
   }
 
-  // fetch quotes from the server api and set state
+  // fetch quotes from the server api
   fetchQuotes = () => {
     fetch('/quotes')
       .then(response => {
@@ -93,10 +103,12 @@ class RandomQuote extends Component {
       })
       .then(data => data.json())
       .then(data => {
+        //pass the quotes to the quotes state
         this.setState({
           requestFailed: false,
           quotes: data,
         })
+        //save the quotes for offline use
         this.cacheQuotes();
       }, () => {
         this.setState({
@@ -105,22 +117,26 @@ class RandomQuote extends Component {
       })
   }
 
-  // move quotes from the state to the local cache
+  // move quotes from the state to the local storage
   cacheQuotes = () => {
     let fetchedQuotes = this.state.quotes;
     let newQuotes = [];
-
+    //check for quotes in the local storage
     DB.findCachedQuotes()
       .then(data => {
         if ( ! data ) {
+          //if there are none save 100 quotes
           DB.cacheQuotes(fetchedQuotes);
           this.setState({
             numberOfCachedQuotes: fetchedQuotes.length
           })
         } else {
+          // if there are quotes in the local storage
+          // check for duplicates and filter them out before saving new quotes
           newQuotes = fetchedQuotes.filter(newQuote => {
             return (data.some(cachedQuote => cachedQuote.quote === newQuote.quote) !== true);
           })
+          //save filtered array
           DB.cacheQuotes(newQuotes);
           this.setState({
             numberOfCachedQuotes: data.length + newQuotes.length
@@ -130,7 +146,7 @@ class RandomQuote extends Component {
 
   }
 
-  // get a random quote from state or local cache
+  // get a random quote from local storage
   getQuote = () => {
     let random;
     DB.findCachedQuotes()
@@ -146,7 +162,7 @@ class RandomQuote extends Component {
       })
   };
 
-  // save a random quote to your quote list
+  // save a random quote to your favlist
   addQuote = () => {
     const quoteText = this.state.quoteText;
     const quoteAuthor = this.state.quoteAuthor;

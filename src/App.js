@@ -6,6 +6,7 @@ import Page from './Page';
 
 class App extends Component {
 
+  // remove inline-css after rendering with ssr
   componentDidMount() {
     const jssStyles = document.getElementById('jss-server-side');
     if (jssStyles && jssStyles.parentNode) {
@@ -14,9 +15,12 @@ class App extends Component {
   }
 
   render() {
+    //define a prop for the inital quote that comes from index.js
     const { initialQuote } = this.props
 
+    //views of the pwa
     const Home = (props) => (
+      //pass initial quote to <RandomQuote /> 
       <Page title="Random Quote" component={<RandomQuote initialQuote={initialQuote} />} />
     );
     

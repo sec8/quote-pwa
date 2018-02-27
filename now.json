@@ -1,6 +1,6 @@
 {
   "name": "quote-pwa",
-  "alias": "quote-pwa-ssr-content",
+  "alias": "quote-pwa",
   "files": [
     "public",
     "server",

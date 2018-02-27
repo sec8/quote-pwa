@@ -23,6 +23,7 @@ let quotes;
 app.use(compression());
 app.enable("trust proxy");
 
+//random quote
 const getRandomQuote = () => {
   request.get(URL, (error, response, data) => {
     console.log(data);
@@ -30,40 +31,51 @@ const getRandomQuote = () => {
   });
 };
 
+//100 quotes
 const getQuotes = () => {
   request.get(CACHE_URL, (error, response, data) => {
     quotes = JSON.parse(data);
   });
 };
 
-//seems like a really ugly fix to the first request failed problem
+//init quote fetch on the server
 getRandomQuote();
 getQuotes();
 
+//Server Side Rendering
 const serverRender = (req, res) => {
+  //get html file 
   const htmlFile = path.resolve(__dirname, '..', 'build', 'index.html');
+
+  //material-ui related stuff
   const sheetsRegistry = new SheetsRegistry();
   const generateClassName = createGenerateClassName();
 
+  //read html
   fs.readFile(htmlFile, 'utf8', (err, htmlData) => {
     if(err) {
       console.error('err', err);
       return res.status(404).end()
     }
     const context = {};
+    //render correct react route component for the the request url
     const html = renderToString(
+      //material-ui specific stuff
       <JssProvider registry={sheetsRegistry} generateClassName={generateClassName}>
         <MuiThemeProvider theme={theme} sheetsManager={new Map()}>
           <Reboot />
+          {/* static router for server, renders the route related to the request url*/}
           <StaticRouter location={req.url} context={ context }>
+            {/* pass the random quote generated on the server to <App /> */}
             <App initialQuote={randomQuote} />
           </StaticRouter>
         </MuiThemeProvider>
       </JssProvider>
     )
-
+    //material-ui css
     const css = sheetsRegistry.toString();
 
+    //inject component html, inline-css and the random quote into the html-document (public/index.html)
     return res.send(
       htmlData.replace(
         '<div id="root"></div>',
@@ -77,6 +89,7 @@ const serverRender = (req, res) => {
   })
 }
 
+//server endpoints
 app.get('/quote', function (req, res) {
   getRandomQuote();
   res.send(randomQuote);

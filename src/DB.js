@@ -2,7 +2,7 @@ import localforage from 'localforage';
 
 class DB {
   
-  // add a Quote to the list
+  // add a Quote to the favlist
   addQuote( data ) {
     return localforage.getItem('quotes')
       .then( res => {
@@ -23,7 +23,7 @@ class DB {
       })
   }
 
-  //find and return the quotes from your list
+  //find and return the quotes from your favlist
   findQuotes() {
     return localforage.getItem('quotes')
       .then( (records) => {
